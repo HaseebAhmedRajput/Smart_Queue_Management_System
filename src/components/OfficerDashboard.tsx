@@ -19,7 +19,7 @@ import {
   Bell,
 } from 'lucide-react';
 import { useAuth } from '../lib/auth-context';
-import { supabaseService } from '../lib/supabase/service';
+import { supabaseService } from '@/lib/supabase/service';
 import type { Shelf, TokenWithDetails, TokenStatus } from '../types/database';
 import { theme, getStatusBadge, formatDuration, formatTimeAgo } from '../styles/theme';
 

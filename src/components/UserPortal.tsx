@@ -17,7 +17,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { useAuth } from '../lib/auth-context';
-import { supabaseService } from '../lib/supabase/service';
+import { supabaseService } from '@/lib/supabase/service';
 import type { Applicant, Service, Floor, TokenWithDetails } from '../types/database';
 import { getStatusBadge, theme, formatDuration, formatTimeAgo } from '../styles/theme';
 

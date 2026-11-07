@@ -14,7 +14,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { useAuth } from '../lib/auth-context';
-import { supabaseService } from '../lib/supabase/service';
+import { supabaseService } from '@/lib/supabase/service';
 import type { Service, Floor, TokenWithDetails, Applicant } from '../types/database';
 import { theme, getStatusBadge, formatTimeAgo } from '../styles/theme';
 

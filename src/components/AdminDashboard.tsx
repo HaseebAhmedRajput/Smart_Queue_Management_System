@@ -36,7 +36,7 @@ import {
   PauseCircle,
   PlayCircle,
 } from 'lucide-react';
-import { supabaseService } from '../lib/supabase/service';
+import { supabaseService } from '@/lib/supabase/service';
 import type {
   Floor,
   Shelf,
