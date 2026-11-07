@@ -1,0 +1,6 @@
+{
+  "name": "Smart Queue & Operations Management System",
+  "description": "Production-grade smart queue and operations platform with multi-role access, automatic FIFO shelf dispatch, no-show enforcement, Supabase PostgreSQL, and live analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    background-color: #F5F7FA;
+    color: #263445;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Custom scrollbars in Midnight Navy + Soft Blue */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #EDF2F7;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Soft blue pulse animation for called tokens in public kiosk */
+@keyframes soft-blue-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px -3px rgba(100, 139, 181, 0.3), 0 0 0 2px rgba(100, 139, 181, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 32px 2px rgba(100, 139, 181, 0.5), 0 0 0 3px rgba(36, 54, 75, 0.6);
+  }
+}
+
+.kiosk-called-token {
+  animation: soft-blue-pulse 2.2s infinite ease-in-out;
+}
