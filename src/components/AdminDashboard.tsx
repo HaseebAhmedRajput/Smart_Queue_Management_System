@@ -802,213 +802,221 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Counter Shelves Section */}
-          <div className="p-6 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs space-y-4">
-            <h4 className="font-bold text-base text-[#047857] pb-2 border-b border-[#E2E8F0]">
-              Operating Counter Stations ({shelves.length})
-            </h4>
+        {/* Counter Shelves Section */}
+<div className="p-6 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs space-y-4">
+  <h4 className="font-bold text-base text-[#047857] pb-2 border-b border-[#E2E8F0]">
+    Operating Counter Stations ({shelves.length})
+  </h4>
 
-            <form onSubmit={handleAddShelf} className="flex flex-col sm:flex-row flex-wrap gap-2 rounded-xl bg-[#ECFDF5] p-3">
-              <input
-                type="text"
-                placeholder="Counter Name (e.g. Counter 07 - Expedited)"
-                required
-                value={newShelfName}
-                onChange={(e) => setNewShelfName(e.target.value)}
-                className="flex-1 px-3 py-2 text-xs rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]"
-              />
-              <input
-                type="number"
-                min={1}
-                required
-                aria-label="Counter number"
-                placeholder="Counter #"
-                value={newShelfNumber}
-                onChange={(e) => setNewShelfNumber(Number(e.target.value))}
-                className="w-24 px-3 py-2 text-xs rounded-xl border border-[#E2E8F0] bg-white"
-              />
-              <select
-                required
-                value={newShelfFloorId}
-                onChange={(e) => setNewShelfFloorId(e.target.value)}
-                className="px-3 py-2 text-xs rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]"
-              >
-                {floors.map((flr) => (
-                  <option key={flr.id} value={flr.id}>
-                    {flr.name}
-                  </option>
-                ))}
-              </select>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-[#10B981] hover:bg-[#047857] text-white text-xs font-bold rounded-xl shadow-xs"
-              >
-                {editingShelfId ? 'Save Counter' : 'Add Station'}
-              </button>
-              {editingShelfId && <button type="button" onClick={cancelEditShelf} className="px-3 py-2 border border-[#CBD5E1] bg-white text-[#475569] text-xs font-bold rounded-xl">Cancel</button>}
-            </form>
-
-            <div className="space-y-2.5 max-h-[400px] overflow-y-auto">
-              {shelves.map((sh) => (
-                <div
-                  key={sh.id}
-                 className="w-full min-w-0 p-3.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] flex flex-col gap-4 text-xs xl:flex-row xl:items-start xl:justify-between"
-                >
-                  <div className="min-w-0 flex-1">
-                    <div className="font-bold text-[#047857]">
-                      {sh.name} (#{sh.shelf_number})
-                    </div>
-                    <div className="text-[11px] text-[#64748B]">
-                      Supports: {!sh.service_ids || sh.service_ids.length === 0 ? 'All active services' : `${sh.service_ids.length} service(s)`}
-                    </div>
-                    {(() => {
-                      const draft = shelfServiceDrafts[sh.id] ?? {
-                        all: !sh.service_ids || sh.service_ids.length === 0,
-                        ids: sh.service_ids || [],
-                      };
-                     return (
-  <div className="mt-3 w-full min-w-0 max-w-none rounded-xl border border-[#D1FAE5] bg-white p-3 sm:p-4">
-    {/* Header */}
-    <div className="mb-3 flex flex-col gap-3 border-b border-[#E2E8F0] pb-3 sm:flex-row sm:items-center sm:justify-between">
-      <span className="text-xs font-bold text-[#047857]">
-        Services handled by this counter
-      </span>
-
-      <label className="flex w-fit shrink-0 cursor-pointer items-center gap-2 rounded-lg border border-[#A7F3D0] bg-[#ECFDF5] px-3 py-2 text-xs font-semibold text-[#047857]">
-        <input
-          type="checkbox"
-          className="h-4 w-4 shrink-0 accent-[#047857]"
-          checked={draft.all}
-          onChange={(e) =>
-            setShelfServiceDrafts((prev) => ({
-              ...prev,
-              [sh.id]: {
-                all: e.target.checked,
-                ids: e.target.checked
-                  ? []
-                  : (prev[sh.id]?.ids ?? sh.service_ids ?? []),
-              },
-            }))
-          }
-        />
-        <span>All services</span>
-      </label>
-    </div>
-
-    {/* Services grid */}
-    <div className="grid w-full min-w-0 grid-cols-1 gap-2 xl:grid-cols-2">
-      {services.map((service) => (
-        <label
-          key={service.id}
-          className={`flex min-w-0 cursor-pointer items-start gap-2.5 rounded-lg border p-3 text-xs transition-colors ${
-            draft.all
-              ? 'border-[#E2E8F0] bg-[#F8FAFC] text-[#94A3B8]'
-              : draft.ids.includes(service.id)
-                ? 'border-[#6EE7B7] bg-[#ECFDF5] text-[#065F46]'
-                : 'border-[#E2E8F0] bg-white text-[#475569] hover:border-[#A7F3D0]'
-          }`}
-        >
-          <input
-            type="checkbox"
-            className="mt-0.5 h-4 w-4 shrink-0 accent-[#047857]"
-            disabled={
-              draft.all ||
-              (!service.is_active && !draft.ids.includes(service.id))
-            }
-            checked={draft.all || draft.ids.includes(service.id)}
-            onChange={(e) =>
-              setShelfServiceDrafts((prev) => {
-                const current = prev[sh.id] ?? {
-                  all: !sh.service_ids || sh.service_ids.length === 0,
-                  ids: sh.service_ids || [],
-                };
-
-                const ids = e.target.checked
-                  ? [...current.ids, service.id]
-                  : current.ids.filter((id) => id !== service.id);
-
-                return {
-                  ...prev,
-                  [sh.id]: {
-                    all: false,
-                    ids: Array.from(new Set(ids)),
-                  },
-                };
-              })
-            }
-          />
-
-          <span className="min-w-0 flex-1 break-words">
-            <span className="block font-semibold leading-5 [overflow-wrap:anywhere]">
-              {service.name}
-            </span>
-
-            <span className="mt-1 block text-[10px] leading-4 opacity-75">
-              {service.code}
-              {!service.is_active ? ' · Inactive' : ''}
-            </span>
-          </span>
-        </label>
+  <form onSubmit={handleAddShelf} className="flex flex-col sm:flex-row flex-wrap gap-2 rounded-xl bg-[#ECFDF5] p-3">
+    <input
+      type="text"
+      placeholder="Counter Name (e.g. Counter 07 - Expedited)"
+      required
+      value={newShelfName}
+      onChange={(e) => setNewShelfName(e.target.value)}
+      className="flex-1 px-3 py-2 text-xs rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]"
+    />
+    <input
+      type="number"
+      min={1}
+      required
+      aria-label="Counter number"
+      placeholder="Counter #"
+      value={newShelfNumber}
+      onChange={(e) => setNewShelfNumber(Number(e.target.value))}
+      className="w-24 px-3 py-2 text-xs rounded-xl border border-[#E2E8F0] bg-white"
+    />
+    <select
+      required
+      value={newShelfFloorId}
+      onChange={(e) => setNewShelfFloorId(e.target.value)}
+      className="px-3 py-2 text-xs rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]"
+    >
+      {floors.map((flr) => (
+        <option key={flr.id} value={flr.id}>
+          {flr.name}
+        </option>
       ))}
-    </div>
-
-    {/* Footer */}
-    <div className="mt-3 flex flex-col gap-3 border-t border-[#E2E8F0] pt-3 sm:flex-row sm:items-center sm:justify-between">
-      <span className="text-[11px] leading-5 text-[#64748B]">
-        {draft.all
-          ? 'This counter can handle every active service, including future services.'
-          : `${draft.ids.length} service(s) selected`}
-      </span>
-
-      <button
-        type="button"
-        disabled={savingShelfServicesId === sh.id}
-        onClick={() => handleSaveShelfServices(sh)}
-        className="w-full rounded-lg bg-[#047857] px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-[#065F46] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:shrink-0"
-      >
-        {savingShelfServicesId === sh.id
-          ? 'Saving…'
-          : 'Save Services'}
+    </select>
+    <button
+      type="submit"
+      className="px-4 py-2 bg-[#10B981] hover:bg-[#047857] text-white text-xs font-bold rounded-xl shadow-xs cursor-pointer"
+    >
+      {editingShelfId ? 'Save Counter' : 'Add Station'}
+    </button>
+    {editingShelfId && (
+      <button type="button" onClick={cancelEditShelf} className="px-3 py-2 border border-[#CBD5E1] bg-white text-[#475569] text-xs font-bold rounded-xl cursor-pointer">
+        Cancel
       </button>
-    </div>
-  </div>
-);
-                    })()}
-                  </div>
+    )}
+  </form>
 
-                  <div className="flex shrink-0 items-center gap-2 flex-wrap justify-end">
-                    <button
-                      type="button"
-                      onClick={() => startEditShelf(sh)}
-                      className="px-2.5 py-1 rounded-lg text-[10px] font-bold border border-[#A7F3D0] bg-white text-[#047857] hover:bg-[#ECFDF5]"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleToggleShelfPause(sh.id, sh.is_paused)}
-                      className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border cursor-pointer ${
-                        sh.is_paused
-                          ? 'bg-[#FEF3C7] text-[#92400E] border-[#FCD34D]'
-                          : 'bg-white text-[#475569] border-[#E2E8F0]'
-                      }`}
-                    >
-                      {sh.is_paused ? 'Paused' : 'Operating'}
-                    </button>
-                    <button
-                      onClick={() => handleToggleShelf(sh.id, sh.is_active)}
-                      className={`px-2.5 py-1 rounded-full text-[10px] font-bold cursor-pointer ${
-                        sh.is_active
-                          ? 'bg-[#DCFCE7] text-[#14532D] border border-[#86EFAC]'
-                          : 'bg-[#F1F5F9] text-[#64748B] border border-[#CBD5E1]'
-                      }`}
-                    >
-                      {sh.is_active ? 'Active' : 'Disabled'}
-                    </button>
-                  </div>
-                </div>
-              ))}
+  <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+    {shelves.map((sh) => (
+      <div
+        key={sh.id}
+        className="w-full p-4 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] flex flex-col gap-3 text-xs"
+      >
+        {/* Top Header Row: Counter Info & Action Buttons */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-[#E2E8F0]">
+          <div className="min-w-0 flex-1">
+            <div className="font-bold text-[#047857] text-sm">
+              {sh.name} (#{sh.shelf_number})
+            </div>
+            <div className="text-[11px] text-[#64748B] mt-0.5">
+              Supports: {!sh.service_ids || sh.service_ids.length === 0 ? 'All active services' : `${sh.service_ids.length} service(s)`}
             </div>
           </div>
+
+          <div className="flex items-center gap-2 flex-wrap shrink-0">
+            <button
+              type="button"
+              onClick={() => startEditShelf(sh)}
+              className="px-3 py-1.5 rounded-lg text-xs font-bold border border-[#A7F3D0] bg-white text-[#047857] hover:bg-[#ECFDF5] cursor-pointer transition-colors"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => handleToggleShelfPause(sh.id, sh.is_paused)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold border cursor-pointer transition-colors ${
+                sh.is_paused
+                  ? 'bg-[#FEF3C7] text-[#92400E] border-[#FCD34D]'
+                  : 'bg-white text-[#475569] border-[#E2E8F0]'
+              }`}
+            >
+              {sh.is_paused ? 'Paused' : 'Operating'}
+            </button>
+            <button
+              onClick={() => handleToggleShelf(sh.id, sh.is_active)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-colors ${
+                sh.is_active
+                  ? 'bg-[#DCFCE7] text-[#14532D] border border-[#86EFAC]'
+                  : 'bg-[#F1F5F9] text-[#64748B] border border-[#CBD5E1]'
+              }`}
+            >
+              {sh.is_active ? 'Active' : 'Disabled'}
+            </button>
+          </div>
+        </div>
+
+        {/* Services Dropdown/Configuration Section */}
+        {(() => {
+          const draft = shelfServiceDrafts[sh.id] ?? {
+            all: !sh.service_ids || sh.service_ids.length === 0,
+            ids: sh.service_ids || [],
+          };
+          return (
+            <div className="w-full rounded-xl border border-[#D1FAE5] bg-white p-3 sm:p-4">
+              {/* Header */}
+              <div className="mb-3 flex flex-col gap-3 border-b border-[#E2E8F0] pb-3 sm:flex-row sm:items-center sm:justify-between">
+                <span className="text-xs font-bold text-[#047857]">
+                  Services handled by this counter
+                </span>
+
+                <label className="flex w-fit shrink-0 cursor-pointer items-center gap-2 rounded-lg border border-[#A7F3D0] bg-[#ECFDF5] px-3 py-2 text-xs font-semibold text-[#047857]">
+                  <input
+                    type="checkbox"
+                    className="h-4 w-4 shrink-0 accent-[#047857]"
+                    checked={draft.all}
+                    onChange={(e) =>
+                      setShelfServiceDrafts((prev) => ({
+                        ...prev,
+                        [sh.id]: {
+                          all: e.target.checked,
+                          ids: e.target.checked
+                            ? []
+                            : (prev[sh.id]?.ids ?? sh.service_ids ?? []),
+                        },
+                      }))
+                    }
+                  />
+                  <span>All services</span>
+                </label>
+              </div>
+
+              {/* Services grid */}
+              <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                {services.map((service) => (
+                  <label
+                    key={service.id}
+                    className={`flex min-w-0 cursor-pointer items-start gap-2.5 rounded-lg border p-3 text-xs transition-colors ${
+                      draft.all
+                        ? 'border-[#E2E8F0] bg-[#F8FAFC] text-[#94A3B8]'
+                        : draft.ids.includes(service.id)
+                          ? 'border-[#6EE7B7] bg-[#ECFDF5] text-[#065F46]'
+                          : 'border-[#E2E8F0] bg-white text-[#475569] hover:border-[#A7F3D0]'
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-[#047857]"
+                      disabled={
+                        draft.all ||
+                        (!service.is_active && !draft.ids.includes(service.id))
+                      }
+                      checked={draft.all || draft.ids.includes(service.id)}
+                      onChange={(e) =>
+                        setShelfServiceDrafts((prev) => {
+                          const current = prev[sh.id] ?? {
+                            all: !sh.service_ids || sh.service_ids.length === 0,
+                            ids: sh.service_ids || [],
+                          };
+
+                          const ids = e.target.checked
+                            ? [...current.ids, service.id]
+                            : current.ids.filter((id) => id !== service.id);
+
+                          return {
+                            ...prev,
+                            [sh.id]: {
+                              all: false,
+                              ids: Array.from(new Set(ids)),
+                            },
+                          };
+                        })
+                      }
+                    />
+
+                    <span className="min-w-0 flex-1 break-words">
+                      <span className="block font-semibold leading-5 [overflow-wrap:anywhere]">
+                        {service.name}
+                      </span>
+                      <span className="mt-1 block text-[10px] leading-4 opacity-75">
+                        {service.code}
+                        {!service.is_active ? ' · Inactive' : ''}
+                      </span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+
+              {/* Footer */}
+              <div className="mt-3 flex flex-col gap-3 border-t border-[#E2E8F0] pt-3 sm:flex-row sm:items-center sm:justify-between">
+                <span className="text-[11px] leading-5 text-[#64748B]">
+                  {draft.all
+                    ? 'This counter can handle every active service, including future services.'
+                    : `${draft.ids.length} service(s) selected`}
+                </span>
+
+                <button
+                  type="button"
+                  disabled={savingShelfServicesId === sh.id}
+                  onClick={() => handleSaveShelfServices(sh)}
+                  className="w-full rounded-lg bg-[#047857] px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-[#065F46] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:shrink-0 cursor-pointer"
+                >
+                  {savingShelfServicesId === sh.id ? 'Saving…' : 'Save Services'}
+                </button>
+              </div>
+            </div>
+          );
+        })()}
+      </div>
+    ))}
+  </div>
+</div>
+
+
         </div>
       )}
 
