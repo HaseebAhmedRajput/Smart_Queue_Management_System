@@ -48,33 +48,6 @@ export const OfficerDashboard: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-//   const loadData = useCallback(async () => {
-//     try {
-//       const [shData, tokData] = await Promise.all([
-//         supabaseService.getShelves(),
-//         supabaseService.getAllTokensDetailed(),
-//       ]);
-//       console.log('[Officer] Realtime refresh:', {
-//   shelves: shData.length,
-//   tokens: tokData.length,
-//   assignedShelfId: profile?.assigned_shelf_id,
-// });
-
-//       setShelves(shData);
-//       setAllTokens(tokData);
-
-//       if (!currentShelfId && shData.length > 0) {
-//         const assigned = profile?.assigned_shelf_id;
-//         const matching = shData.find((s) => s.id === assigned);
-//         setCurrentShelfId(matching ? matching.id : shData[0].id);
-//       }
-//     } catch (err) {
-//       console.error('Error loading officer data:', err);
-//       console.error('[Officer] loadData failed:', err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   }, [currentShelfId, profile?.assigned_shelf_id]);
 
 
 

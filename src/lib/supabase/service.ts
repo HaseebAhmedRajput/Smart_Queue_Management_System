@@ -13,9 +13,9 @@ import type {
 } from '../../types/database';
 
 export const supabaseService = {
-  // ==========================================
+  
   // SERVICES
-  // ==========================================
+  
   async getServices(): Promise<Service[]> {
     if (!supabase) return [];
     const { data, error } = await supabase
@@ -85,9 +85,9 @@ export const supabaseService = {
     return {};
   },
 
-  // ==========================================
+  
   // FLOORS
-  // ==========================================
+  
   async getFloors(): Promise<Floor[]> {
     if (!supabase) return [];
     const { data, error } = await supabase
@@ -141,9 +141,9 @@ export const supabaseService = {
     return {};
   },
 
-  // ==========================================
+  
   // SHELVES / COUNTERS
-  // ==========================================
+  
   async getShelves(): Promise<Shelf[]> {
     if (!supabase) return [];
     const { data, error } = await supabase
@@ -201,9 +201,9 @@ export const supabaseService = {
     return {};
   },
 
-  // ==========================================
+  
   // PROFILES (STAFF & CITIZENS)
-  // ==========================================
+  
   async getProfiles(): Promise<Profile[]> {
     if (!supabase) return [];
     const { data, error } = await supabase
@@ -249,9 +249,9 @@ async assignShelfToOfficer(
   return {};
 },
 
-  // ==========================================
+  
   // APPLICANTS (FAMILY / CITIZEN PROFILES)
-  // ==========================================
+  
   async getApplicants(accountId: string): Promise<Applicant[]> {
     if (!supabase || !accountId) return [];
     const { data, error } = await supabase
@@ -299,9 +299,9 @@ async assignShelfToOfficer(
     return {};
   },
 
-  // ==========================================
+  
   // TOKENS & QUEUE OPERATIONS
-  // ==========================================
+  
   async getTokensForAccount(accountId: string): Promise<TokenWithDetails[]> {
     if (!supabase || !accountId) return [];
     const { data, error } = await supabase
@@ -675,7 +675,7 @@ async markSkipped(
     };
   },
 
-  // ==========================================
+  
   // REALTIME SUBSCRIPTION
 subscribe(callback: () => void) {
   if (!supabase) return () => {};

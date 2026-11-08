@@ -250,7 +250,7 @@ export const TokenOperatorPortal: React.FC = () => {
                 ) : (
                   <span className="flex items-center justify-center gap-2">
                     <Printer className="w-4 h-4" />
-                    <span>Print & Dispatch Token</span>
+                    <span>Dispatch Token</span>
                   </span>
                 )}
               </button>
@@ -275,13 +275,13 @@ export const TokenOperatorPortal: React.FC = () => {
                     Walk-in Ticket Issued: {new Date(activeVoucher.created_at).toLocaleTimeString()}
                   </p>
                 </div>
-                <button
+                {/* <button
                   onClick={() => window.print()}
                   className="px-3 py-2 rounded-xl bg-[#24364B] hover:bg-[#172638] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer"
                 >
                   <Printer className="w-4 h-4" />
                   <span>Print Slip</span>
-                </button>
+                </button> */}
               </div>
 
               <div className="bg-[#F8FAFC] p-6 rounded-2xl border border-[#E2E8F0] text-center space-y-2">
@@ -318,7 +318,7 @@ export const TokenOperatorPortal: React.FC = () => {
               <div className="p-3 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] text-xs text-[#1E3A8A] flex items-center gap-2">
                 <Clock className="w-4 h-4 text-[#2563EB] shrink-0" />
                 <span>
-                  Please watch the overhead TV kiosk displays. When your ticket is called, you will have 120 seconds to report to the counter.
+                  Please watch the overhead Public Token Display Screen. When your ticket is called, you will have 120 seconds to report to the counter.
                 </span>
               </div>
             </div>

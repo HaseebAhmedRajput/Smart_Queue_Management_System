@@ -360,13 +360,13 @@ useEffect(() => {
                       {a.national_id_or_passport} • <span className="uppercase font-semibold">{a.relationship}</span>
                     </div>
                   </div>
-                  <button
+                  {/* <button
                     onClick={() => handleDeleteApplicant(a.id, a.full_name)}
                     className="p-1.5 rounded-lg text-[#94A3B8] hover:text-[#E11D48] hover:bg-[#FFF1F2] transition-colors cursor-pointer"
                     title="Remove applicant"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+                  </button> */}
                 </div>
               ))}
               {applicants.length === 0 && (

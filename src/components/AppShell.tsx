@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -43,6 +43,13 @@ export const AppShell: React.FC<Props> = ({ children }) => {
     pathname === '/register' ||
     pathname === '/forgot-password' ||
     pathname === '/verify-email';
+
+
+    useEffect(() => {
+  if (!loading && !user && !isAuthPage && pathname !== '/kiosk') {
+    router.replace('/login');
+  }
+}, [loading, user, isAuthPage, pathname, router]);
 
   if (isAuthPage) {
     return <>{children}</>;
@@ -108,32 +115,42 @@ export const AppShell: React.FC<Props> = ({ children }) => {
     );
   }
 
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-[#F5F7FA] flex flex-col items-center justify-center p-4">
-        <div className="bg-white border border-[#E2E8F0] rounded-2xl max-w-md w-full p-8 text-center shadow-sm space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-[#FFF1F2] text-[#E11D48] flex items-center justify-center mx-auto border border-[#FECDD3]">
-            <Lock className="w-7 h-7" />
-          </div>
-          <h2 className="text-xl font-bold text-[#172638]">Authentication Required</h2>
-          <p className="text-xs text-[#4A5B70]">
-            Please sign in with your verified credentials to access this operations portal.
-          </p>
-          <div className="pt-2">
-            <Link
-              href="/login"
-              className="w-full inline-flex justify-center items-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold text-white bg-[#24364B] hover:bg-[#172638] transition-all shadow-xs"
-            >
-              <span>Go to Sign In</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // if (!user) {
+  //   return (
+  //     <div className="min-h-screen bg-[#F5F7FA] flex flex-col items-center justify-center p-4">
+  //       <div className="bg-white border border-[#E2E8F0] rounded-2xl max-w-md w-full p-8 text-center shadow-sm space-y-4">
+  //         <div className="w-14 h-14 rounded-2xl bg-[#FFF1F2] text-[#E11D48] flex items-center justify-center mx-auto border border-[#FECDD3]">
+  //           <Lock className="w-7 h-7" />
+  //         </div>
+  //         <h2 className="text-xl font-bold text-[#172638]">Authentication Required</h2>
+  //         <p className="text-xs text-[#4A5B70]">
+  //           Please sign in with your verified credentials to access this operations portal.
+  //         </p>
+  //         <div className="pt-2">
+  //           <Link
+  //             href="/login"
+  //             className="w-full inline-flex justify-center items-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold text-white bg-[#24364B] hover:bg-[#172638] transition-all shadow-xs"
+  //           >
+  //             <span>Go to Sign In</span>
+  //             <ArrowRight className="w-4 h-4" />
+  //           </Link>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // Role Permissions Verification
+  
+
+
+
+  if (!user) {
+  // router.replace('/login');
+  return null;
+}
+  
+  
   const isAuthorized = (() => {
     if (pathname.startsWith('/admin')) {
       return role === 'admin';
@@ -198,7 +215,7 @@ export const AppShell: React.FC<Props> = ({ children }) => {
     {
       href: '/operator',
       label: 'Token Operator',
-      subtitle: 'Walk-in Intake & Voucher',
+      subtitle: 'Walk-in Intake',
       icon: Ticket,
       roles: ['admin', 'token_operator'],
     },
@@ -352,7 +369,7 @@ export const AppShell: React.FC<Props> = ({ children }) => {
           <button
             onClick={async () => {
               await signOut();
-              router.push('/login');
+           router.replace('/login');
             }}
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[#24364B] hover:bg-[#E11D48]/80 text-[#DCE8F5] hover:text-white text-xs font-semibold border border-[#648BB5]/30 cursor-pointer transition-all shadow-xs"
           >
