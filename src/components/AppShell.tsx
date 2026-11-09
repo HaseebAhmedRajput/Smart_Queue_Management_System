@@ -44,12 +44,11 @@ export const AppShell: React.FC<Props> = ({ children }) => {
     pathname === '/forgot-password' ||
     pathname === '/verify-email';
 
-
-    useEffect(() => {
-  if (!loading && !user && !isAuthPage && pathname !== '/kiosk') {
-    router.replace('/login');
-  }
-}, [loading, user, isAuthPage, pathname, router]);
+  useEffect(() => {
+    if (!loading && !user && !isAuthPage && pathname !== '/kiosk') {
+      router.replace('/login');
+    }
+  }, [loading, user, isAuthPage, pathname, router]);
 
   if (isAuthPage) {
     return <>{children}</>;
@@ -115,42 +114,11 @@ export const AppShell: React.FC<Props> = ({ children }) => {
     );
   }
 
-  // if (!user) {
-  //   return (
-  //     <div className="min-h-screen bg-[#F5F7FA] flex flex-col items-center justify-center p-4">
-  //       <div className="bg-white border border-[#E2E8F0] rounded-2xl max-w-md w-full p-8 text-center shadow-sm space-y-4">
-  //         <div className="w-14 h-14 rounded-2xl bg-[#FFF1F2] text-[#E11D48] flex items-center justify-center mx-auto border border-[#FECDD3]">
-  //           <Lock className="w-7 h-7" />
-  //         </div>
-  //         <h2 className="text-xl font-bold text-[#172638]">Authentication Required</h2>
-  //         <p className="text-xs text-[#4A5B70]">
-  //           Please sign in with your verified credentials to access this operations portal.
-  //         </p>
-  //         <div className="pt-2">
-  //           <Link
-  //             href="/login"
-  //             className="w-full inline-flex justify-center items-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold text-white bg-[#24364B] hover:bg-[#172638] transition-all shadow-xs"
-  //           >
-  //             <span>Go to Sign In</span>
-  //             <ArrowRight className="w-4 h-4" />
-  //           </Link>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (!user) {
+    return null;
+  }
 
   // Role Permissions Verification
-  
-
-
-
-  if (!user) {
-  // router.replace('/login');
-  return null;
-}
-  
-  
   const isAuthorized = (() => {
     if (pathname.startsWith('/admin')) {
       return role === 'admin';
@@ -210,7 +178,7 @@ export const AppShell: React.FC<Props> = ({ children }) => {
       label: 'Operation Officer',
       subtitle: 'Counter Station & Actions',
       icon: Briefcase,
-      roles: ['operation_officer'], // <--- Yahan se 'admin' hata diya hai taaki admin ko officer tab show na ho
+      roles: ['operation_officer'],
     },
     {
       href: '/operator',
@@ -258,7 +226,7 @@ export const AppShell: React.FC<Props> = ({ children }) => {
 
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-1.5 rounded-lg bg-[#24364B] text-[#DCE8F5] border border-[#648BB5]/30"
+          className="p-1.5 rounded-lg bg-[#24364B] text-[#DCE8F5] border border-[#648BB5]/30 cursor-pointer"
           aria-label="Toggle navigation menu"
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -273,9 +241,9 @@ export const AppShell: React.FC<Props> = ({ children }) => {
         />
       )}
 
-      {/* Dark Midnight Navy Sidebar (#172638) */}
+      {/* Dark Midnight Navy Sidebar (#172638) - Proper Desktop Sticky Layout */}
       <aside
-        className={`fixed md:sticky top-0 left-0 z-50 h-screen w-68 bg-[#172638] border-r border-[#24364B] flex flex-col justify-between transition-transform duration-200 ease-in-out md:translate-x-0 ${
+        className={`fixed md:sticky top-0 left-0 z-50 h-screen w-68 bg-[#172638] border-r border-[#24364B] flex flex-col justify-between transition-transform duration-200 ease-in-out md:translate-x-0 shrink-0 ${
           mobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
         }`}
       >
@@ -298,7 +266,7 @@ export const AppShell: React.FC<Props> = ({ children }) => {
 
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="md:hidden p-1 text-[#A4BFDD] hover:text-white"
+              className="md:hidden p-1 text-[#A4BFDD] hover:text-white cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -369,7 +337,7 @@ export const AppShell: React.FC<Props> = ({ children }) => {
           <button
             onClick={async () => {
               await signOut();
-           router.replace('/login');
+              router.replace('/login');
             }}
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[#24364B] hover:bg-[#E11D48]/80 text-[#DCE8F5] hover:text-white text-xs font-semibold border border-[#648BB5]/30 cursor-pointer transition-all shadow-xs"
           >

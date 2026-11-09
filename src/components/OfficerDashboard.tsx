@@ -355,7 +355,7 @@ const loadData = useCallback(async () => {
                     {currentToken.status === 'called' ? (
                       <div>
                         <span className="text-[10px] uppercase font-bold text-[#D97706] block">
-                          No-Show Window
+                          No-Show 
                         </span>
                         <div
                           className={`text-2xl font-black font-mono ${
