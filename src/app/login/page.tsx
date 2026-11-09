@@ -154,7 +154,7 @@ export default function LoginPage() {
                 Smart Queue Management
               </h2>
               <p className="text-[10px] text-[#648BB5] font-medium">
-                Enterprise Portal
+               For All Services
               </p>
             </div>
           </div>
