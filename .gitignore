@@ -11,4 +11,3 @@ coverage/
 .env.production.local
 !.env.example
 .next/
-supabase-queries
