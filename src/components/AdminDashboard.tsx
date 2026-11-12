@@ -568,7 +568,7 @@ export const AdminDashboard: React.FC = () => {
                 Intake Volume by Service Type
               </h4>
               <p className="text-xs text-[#64748B] mb-4">
-                Citizen tickets categorized by government department service
+                Citizen tokens categorized by  department service
               </p>
 
               <div className="h-64">
